@@ -16,7 +16,7 @@
     },
     {
       "title": "mas",
-      "completed": false,
+      "completed": true,
       "createdAt": 1572186264692,
       "lastModified": 1572186264692,
       "id": 3

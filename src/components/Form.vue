@@ -55,4 +55,11 @@ textarea {
     border: none;
 }
 
+@media (min-width: 678px) {
+    #form {
+        width: 70%;
+        margin: 30px auto;
+    }
+}
+
 </style>
