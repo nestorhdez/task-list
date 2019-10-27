@@ -23,7 +23,6 @@ export default {
         save(){
             this.error = false;
             if(this.task.title) {
-                this.task.createdAt = Date.now();
                 this.task.lastModified = Date.now();
                 this.error = false;
                 this.$axios.put(`${this.$url}/${this.task.id}`, this.task)
