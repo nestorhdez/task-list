@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Form from '../views/Form.vue'
+import Add from '../views/Add.vue'
+import Edit from '../views/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -12,9 +13,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/form',
-    name: 'form',
-    component: Form
+    path: '/add',
+    name: 'add',
+    component: Add
+  },
+  {
+    path: '/edit/:id',
+    name: 'edit',
+    component: Edit 
   }
 ]
 

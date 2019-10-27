@@ -2,6 +2,7 @@
     <div>
         <span id="error" v-if="error">Something wrong happend</span>
         <router-link to="/">Close</router-link>
+        <button @click="remove" v-if="task.completed">Delete</button>
         <Form @save="save" :task="task"/>
     </div>    
 </template>
@@ -14,26 +15,33 @@ export default {
     name: 'add',
     data(){
         return{
-            task: {
-                title: '',
-                completed: false,
-                createdAt: 0,
-                lastModified: 0
-            },
+            task: '',
             error: false
         }
     },
     methods: {
         save(){
+            this.error = false;
             if(this.task.title) {
                 this.task.createdAt = Date.now();
                 this.task.lastModified = Date.now();
                 this.error = false;
-                this.$axios.post(this.$url, this.task)
+                this.$axios.put(`${this.$url}/${this.task.id}`, this.task)
                     .then(() => this.$router.replace('/'))
                     .catch(() => this.error = true);
             }
+        },
+        remove(){
+            this.$axios.delete(`${this.$url}/${this.task.id}`)
+                .then(() => this.$router.replace('/'))
+                .catch(() => this.error = true);
         }
+    },
+    created(){
+        const id = window.location.hash.split('/').slice(-1)[0];
+        this.$axios.get(`${this.$url}/${id}`)
+            .then((res) => this.task = res.data)
+            .catch(() => this.$router.replace('/'));
     },
     components: {
         Form
@@ -49,6 +57,19 @@ export default {
         left: 15px;
         text-decoration: none;
         color: #2c3e50;
+    }
+
+    button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        text-decoration: none;
+        color: #e62a2a;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 
     #error {

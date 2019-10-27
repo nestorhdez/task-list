@@ -1,7 +1,7 @@
 <template>
     <div :id="task.id" class="task">
         <button @click="$emit('check', task.id)" :class="task.completed ? 'done' : ''"></button>
-        <span :class="task.completed ? 'line-through' : ''">{{task.title}}</span>
+        <router-link :to="`/edit/${task.id}`" :class="task.completed ? 'line-through' : ''">{{task.title}}</router-link>
     </div>
 </template>
 
@@ -46,12 +46,14 @@ export default {
         border: none;
     }
 
-    span {
+    a {
         width: 85%;
         text-align: justify;
+        color: #2c3e50;
+        text-decoration: none;
     }
 
-    span.line-through {
+    a.line-through {
         text-decoration: line-through;
     }
     
