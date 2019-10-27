@@ -23,7 +23,6 @@ export default {
 <style scoped>
     .task {
         background-color: #fff;
-        border-radius: 3px;
         display: flex;
         align-items: center;
         padding: 15px 10px;

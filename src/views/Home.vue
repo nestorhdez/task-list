@@ -132,4 +132,21 @@ h1 {
   font-weight: 500;
 }
 
+@media (min-width: 678px) {
+
+  #add-task, #incompleted-container {
+    width: calc(60% - 5px);
+  }
+  #add-task, #incompleted-container, #completed-container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #completed-container{
+    width: 60%;
+    padding: 0 5px;
+  }
+    
+}
+
 </style>
