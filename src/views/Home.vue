@@ -2,16 +2,20 @@
   <div class="home">
     <h1>Task list</h1>
     <span id="message" v-if="error.status">{{error.msg}}</span>
-    <div id="incompleted">
+    <router-link to="/add" id="add-task" class="box-shadow">Add task</router-link>
+
+    <div id="incompleted-container">
       <Task @check="checkTask" :task="task" v-for="(task, i) in incompleted" :key="i"/>
     </div>
+
     <div id="completed-container" :class="completedContainer ? 'show' : ''">
-      <div id="completed-header">
+      <div id="completed-header" class="box-shadow">
         <span>Completed</span>
         <button @click="toggleCompleted">{{completedContainer ? 'Hide' : 'Show'}}</button>
       </div>
       <Task @check="checkTask" :task="task" v-for="(task, i) in completed" :key="i"/>
     </div>
+
   </div>
 </template>
 
@@ -74,6 +78,7 @@ export default {
 
 h1 {
   margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 #message {
@@ -82,6 +87,15 @@ h1 {
   font-size: 1.2rem;
   font-weight: 500;
   color: #e62a2a;
+}
+
+#add-task {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+#incompleted-container {
+  margin-top: 30px;
 }
 
 #completed-container {
@@ -94,13 +108,13 @@ h1 {
   overflow: auto;
 }
 
-#completed-header {
+.box-shadow {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 15px 10px;
-  margin: 30px 0;
+  margin: 30px 0 10px;
   background-color: #fff;
   border-radius: 3px;
   box-shadow: 0 0px 3px 1px rgba(0, 0, 0, 0.3);
