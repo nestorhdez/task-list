@@ -1,5 +1,11 @@
 # task-list
 
+## Server
+
+1. install [json-server](https://www.npmjs.com/package/json-server)
+2. cd task-list
+3. run: json-server --watch db.json
+
 ## Project setup
 ```
 npm install
