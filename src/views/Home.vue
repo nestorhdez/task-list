@@ -1,18 +1,121 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Task list</h1>
+    <span id="message" v-if="error.status">{{error.msg}}</span>
+    <div id="incompleted">
+      <Task @check="checkTask" :task="task" v-for="(task, i) in incompleted" :key="i"/>
+    </div>
+    <div id="completed-container" :class="completedContainer ? 'show' : ''">
+      <div id="completed-header">
+        <span>Completed</span>
+        <button @click="toggleCompleted">{{completedContainer ? 'Hide' : 'Show'}}</button>
+      </div>
+      <Task @check="checkTask" :task="task" v-for="(task, i) in completed" :key="i"/>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
+import Task from '../components/Task';
 
 export default {
   name: 'home',
+  data(){
+    return{
+      taskList: [],
+      error: {
+        status: false,
+        msg: ''
+      },
+      completedContainer: false
+    }
+  },
+  methods: {
+    getTaskList() {
+      this.error.status = false;
+      this.$axios.get(this.$url)
+        .then(res => {
+          this.taskList = res.data;
+          if(res.data.length === 0) {
+            this.error.status = true;
+            this.error.msg = 'There are no task to show';
+          }
+        })
+        .catch(() => this.error.msg = 'Something wrong happend');
+    },
+    checkTask(id){
+      const task = this.taskList.find(task => task.id === id);
+      task.completed = !task.completed;
+      this.$axios.patch(`${this.$url}/${id}`, task);
+    },
+    toggleCompleted(){
+      this.completedContainer = !this.completedContainer;
+    }
+  },
+  computed: {
+    incompleted(){
+      return this.taskList.filter(task => !task.completed);
+    },
+    completed(){
+      return this.taskList.filter(task => task.completed);
+    }
+  },
+  created(){
+    this.getTaskList();
+  },
   components: {
-    HelloWorld
+    Task
   }
 }
 </script>
+
+<style scoped>
+
+h1 {
+  margin-top: 40px;
+}
+
+#message {
+  display: inline-block;
+  margin-top: calc(50vh - 84px);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #e62a2a;
+}
+
+#completed-container {
+  height: 90px;
+  overflow: hidden;
+}
+
+#completed-container.show {
+  height: auto;
+  overflow: auto;
+}
+
+#completed-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 10px;
+  margin: 30px 0;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0px 3px 1px rgba(0, 0, 0, 0.3);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+#completed-header button {
+  position: absolute;
+  right: 20px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+</style>
