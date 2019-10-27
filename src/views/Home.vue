@@ -40,7 +40,7 @@ export default {
       this.error.status = false;
       this.$axios.get(this.$url)
         .then(res => {
-          this.taskList = res.data;
+          this.taskList = res.data.sort((a, b) => b.lastModified - a.lastModified);
           if(res.data.length === 0) {
             this.error.status = true;
             this.error.msg = 'There are no task to show';
